@@ -13,7 +13,7 @@ angular.module('myApp', [
 
 .controller('navListCtrl', ['$scope', '$rootScope', 'IsLoggedIn', function($scope, $rootScope, IsLoggedIn) {
       $scope.nav_pages = [];
-      $scope.phone = IsLoggedIn.get({}, function(data) {
+      IsLoggedIn.get({}, function(data) {
         $rootScope.logged_in = data.logged_in;
         if(data.logged_in){
           $scope.nav_pages = ['home', 'settings', 'ranking', 'alliance', 'friends', 'events', 'mail', 'logout'];

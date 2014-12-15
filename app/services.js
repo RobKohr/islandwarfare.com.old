@@ -9,3 +9,10 @@ services.factory('IsLoggedIn', ['$resource',
             query: {method:'GET', params:{}}
         });
     }]);
+
+services.factory('IslandListSrv', ['$resource',
+    function($resource){
+        return $resource(api_path+'/island_list.json', {}, {
+            query: {method:'GET', params:{}}
+        });
+    }]);
