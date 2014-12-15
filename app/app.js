@@ -6,6 +6,8 @@ angular.module('myApp', [
   'ngResource',
   'myApp.services',
   'myApp.home',
+  'myApp.island_list',
+  'myApp.island',
   'myApp.view1',
   'myApp.view2',
   'myApp.version'
@@ -21,11 +23,7 @@ angular.module('myApp', [
         }else{
           $scope.nav_pages = ['home', 'register', 'login'];
         }
-
-        console.log($rootScope.logged_in)
       });
-
-
 }])
 
 .config(['$routeProvider', function($routeProvider) {
