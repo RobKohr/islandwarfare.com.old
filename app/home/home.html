@@ -1,1 +1,6 @@
-<p>This is the partial for view 1.</p>
+
+<div ng-if="logged_in==true" ng-include="'island_list/island_list.html'">
+    Loading island list...
+</div>
+<div ng-if="logged_in!=true"  ng-include="'auth/auth.html'">
+</div>
