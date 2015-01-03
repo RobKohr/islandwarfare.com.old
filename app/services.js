@@ -13,6 +13,13 @@ services.factory('IsLoggedIn', ['$resource',
 services.factory('IslandListSrv', ['$resource',
     function($resource){
         return $resource(api_path+'/island_list.json', {}, {
-            query: {method:'GET', params:{}}
+            query: {method:'GET', params:{}},
+        });
+    }]);
+
+services.factory('IslandSrv', ['$resource',
+    function($resource){
+        return $resource(api_path+'/island_list.json', {}, {
+            query: {method:'GET', params:{}},
         });
     }]);

@@ -5,6 +5,7 @@
 <!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
+  <base href="/">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>My AngularJS App</title>
   <meta name="description" content="">
@@ -17,7 +18,7 @@
 <body>
   <ul class="menu" ng-controller="navListCtrl">
     <li ng-repeat="page in nav_pages">
-      <a href="#/{{page}}"><span ng-if="page=='home'">{{logged_in_username}} </span>{{page}}</a>
+      <a href="{{page}}"><span ng-if="page=='home'">{{logged_in_username}} </span>{{page}}</a>
     </li>
   </ul>
 
