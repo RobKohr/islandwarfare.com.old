@@ -4,7 +4,11 @@ var static_directory = __dirname + '/app';
 app.use(express.static(static_directory));
 fs = require('fs');
 
-
+/*
+    any route that doesn't contain "." hits this route and loads index
+    this is to get push state working.
+    At some point, server side rendering could be done for SEO.
+  */
 app.get(/^[^\.]+$/, function (req, res) {
     fs.readFile(static_directory+'/index.html', 'utf8', function (err,data) {
         if (err) {
