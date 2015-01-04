@@ -9,8 +9,7 @@ angular.module('myApp.island', ['ngRoute'])
   });
 }])
 
-.controller('islandCtrl', ['$scope', 'IslandListSrv', function($scope, IslandListSrv) {
-      console.log('heree');
+.controller('islandCtrl', ['$scope', 'IslandListSrv','$routeParams', function($scope, IslandListSrv, $routeParams) {
       $scope.island_list = IslandListSrv.get({});
       console.log($scope.island_list);
     }]);
