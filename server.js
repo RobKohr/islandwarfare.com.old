@@ -30,6 +30,10 @@ app.get('/api/:module_name/:method_name', function(req, res){
     }
     var module = api_modules[module_name];
     module._init(api_config);
+
+    if(typeof(module[method_name])!='function'){
+        return res.send('No method by that name');
+    }
     var out = {};
     module[method_name](req, res, out, function(req, res, out){
         return res.json(out);
