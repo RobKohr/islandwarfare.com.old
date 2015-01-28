@@ -1,51 +1,41 @@
 var express = require('express');
 var app = express();
 var static_directory = __dirname + '/app';
+var api_directory = __dirname + '/api';
 app.use(express.static(static_directory));
 fs = require('fs');
+var config = app.config = require(__dirname + '/config.json');
+config.project_name = __dirname.split('/').pop().split('.')[0];
 
+//override config with local config if values are set.
+if (fs.existsSync(__dirname+'/config_local.json')) {
+    var local_config = require(__dirname+'/config_local.json');
+    for(var key in local_config){
+        config[key] = local_config[key];
+    }
+}
+
+//Load and init all modules in the api/ directory
+app.api_modules = {};
+var files = fs.readdirSync(api_directory);
+for(var i=0; i<files.length; i++){
+    var filename = files[i];
+    var module = require(api_directory + '/' + filename);
+    var module_name = filename.split('.')[0];
+    app.api_modules[module_name] = module;
+    module._init({app:app});
+}
+
+//used as a standardized way for apis to respond.
+app.resEnd = function(req, res, out){
+    return res.json(out);
+}
 
 /*
-    Handle all api calls in this route.
-    Automatically loads modules in the /api/ directory as needed,
-    and calls the methods in those modules based upon the route.
+ any route that doesn't contain "." hits this route and loads index
+ this is to get push state working.
+ At some point, server side rendering could be done for SEO (using PhantomJS)
  */
-var api_modules = {};//collection apis that have been loaded
-var api_config = {app:app};//references to other app modules are put in here
-app.get('/api/:module_name/:method_name', function(req, res){
-    var module_name = req.params.module_name;
-    var method_name = req.params.method_name;
-    if((module_name.indexOf("/") > -1) || (module_name.indexOf(".") > -1)){
-        return res.send('Error, bad module name');
-    }
-    if((method_name[0] == "_")){
-        return res.send('Error, bad method name');
-    }
-    if(!api_modules[module_name]){
-        try{
-            api_modules[module_name] = require(__dirname+'/api/'+module_name+'.js');
-        }catch(e){
-            return res.send('Error, there is no module by that name.');
-        }
-    }
-    var module = api_modules[module_name];
-    module._init(api_config);
-
-    if(typeof(module[method_name])!='function'){
-        return res.send('No method by that name');
-    }
-    var out = {};
-    module[method_name](req, res, out, function(req, res, out){
-        return res.json(out);
-    });
-});
-
-
-/*
-    any route that doesn't contain "." hits this route and loads index
-    this is to get push state working.
-    At some point, server side rendering could be done for SEO (using PhantomJS)
-  */
 app.get(/^[^\.]+$/, function (req, res) {
     fs.readFile(static_directory+'/index.html', 'utf8', function (err,data) {
         if (err) {
@@ -57,11 +47,17 @@ app.get(/^[^\.]+$/, function (req, res) {
 
 
 
-var server = app.listen(3000, function () {
+//Connect to db, then start up the web server.
+var MongoClient = require('mongodb').MongoClient
+    , assert = require('assert');
+app.db = {};
+MongoClient.connect('mongodb://localhost:27017/'+config.project_name, function(err, db) {
+    app.db = db;
+    var server = app.listen(app.config.port, function () {
+        var host = server.address().address;
+        var port = server.address().port;
 
-    var host = server.address().address;
-    var port = server.address().port;
+        console.log('Example app listening at http://%s:%s', host, port);
 
-    console.log('Example app listening at http://%s:%s', host, port);
-
+    });
 });
