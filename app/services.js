@@ -5,7 +5,7 @@ var services = angular.module('myApp.services', ['ngResource']);
 
 services.factory('IsLoggedIn', ['$resource',
     function($resource){
-        return $resource('/mock_api/is_logged_in.json', {}, {
+        return $resource('/api/auth/', {}, {
             query: {method:'GET', params:{}}
         });
     }]);

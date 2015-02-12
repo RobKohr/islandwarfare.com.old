@@ -8,8 +8,7 @@ angular.module('myApp.island_list', ['ngRoute'])
     controller: 'island_listCtrl'
   });
 }])
-
-.controller('island_listCtrl', ['$scope', 'IslandListSrv', function($scope, IslandListSrv) {
+.controller('island_listCtrl', ['$scope', 'IslandSrv', function($scope, IslandSrv) {
       console.log('heree');
-      $scope.island_list = IslandListSrv.get({});
+      $scope.island_list = IslandSrv.get({});
     }]);

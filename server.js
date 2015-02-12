@@ -1,8 +1,16 @@
 var express = require('express');
+var bodyParser = require('body-parser')
+
 var app = express();
 var static_directory = __dirname + '/app';
 var api_directory = __dirname + '/api';
 app.use(express.static(static_directory));
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+    extended: true
+}));
+
+
 fs = require('fs');
 var config = app.config = require(__dirname + '/config.json');
 config.project_name = __dirname.split('/').pop().split('.')[0];
@@ -46,18 +54,20 @@ app.get(/^[^\.]+$/, function (req, res) {
 });
 
 
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/'+config.project_name);
+app.mongoose = mongoose;
+var db = mongoose.connection;
 
-//Connect to db, then start up the web server.
-var MongoClient = require('mongodb').MongoClient
-    , assert = require('assert');
-app.db = {};
-MongoClient.connect('mongodb://localhost:27017/'+config.project_name, function(err, db) {
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function (callback) {
     app.db = db;
     var server = app.listen(app.config.port, function () {
         var host = server.address().address;
         var port = server.address().port;
 
         console.log('Example app listening at http://%s:%s', host, port);
+
 
     });
 });
