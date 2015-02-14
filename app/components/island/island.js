@@ -4,7 +4,7 @@ angular.module('myApp.island', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/island/:key', {
-    templateUrl: 'island/island.html',
+    templateUrl: '/island.html',
     controller: 'islandCtrl'
   });
 }])

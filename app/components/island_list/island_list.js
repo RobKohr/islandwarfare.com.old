@@ -4,7 +4,7 @@ angular.module('myApp.island_list', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/island_list', {
-    templateUrl: 'island_list/island_list.html',
+    templateUrl: '/island_list.html',
     controller: 'island_listCtrl'
   });
 }])
