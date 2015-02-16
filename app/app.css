@@ -1,30 +1,52 @@
 /* app css stylesheet */
-
 .menu {
   list-style: none;
   border-bottom: 0.1em solid black;
   margin-bottom: 2em;
-  padding: 0 0 0.5em;
-}
+  padding: 0 0 0.5em; }
+  .menu:before {
+    content: "["; }
+  .menu:after {
+    content: "]"; }
+  .menu > li {
+    display: inline; }
+    .menu > li:before {
+      content: "|";
+      padding-right: 0.3em; }
+    .menu > li:nth-child(1):before {
+      content: "";
+      padding: 0; }
 
-.menu:before {
-  content: "[";
-}
-
-.menu:after {
-  content: "]";
-}
-
-.menu > li {
-  display: inline;
-}
-
-.menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
-}
-
-.menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
-}
+form {
+  display: table;
+  /*
+  label{
+    min-width: 100px;
+    float: left;
+    padding-left: 1em;
+  }
+  */ }
+  form p {
+    display: table-row; }
+    form p label, form p input, form p button {
+      display: table-cell;
+      margin-left: 1em;
+      margin-right: 1em;
+      margin-top: 0.5em; }
+  form fieldset {
+    border: 1px solid black;
+    padding: 1em;
+    margin: 1em; }
+  form legend {
+    padding: 0.5em;
+    border: 1px solid black; }
+  form input {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em; }
+  form input[type="submit"], form input[type="button"], form button {
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em; }

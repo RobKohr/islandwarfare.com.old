@@ -1,7 +1,7 @@
-angular.module('myApp.home', ['ngRoute'])
-    .controller('navListCtrl', ['$scope', '$rootScope', 'IsLoggedIn', function($scope, $rootScope, IsLoggedIn) {
+angular.module('myApp')
+    .controller('navListCtrl', ['$scope', '$rootScope', 'authService', function($scope, $rootScope, authService) {
         $scope.nav_pages = [];
-        IsLoggedIn.get({}, function(data) {
+        authService.isLoggedIn({}, function(data) {
             $rootScope.logged_in = data.logged_in;
             if(data.logged_in){
                 $scope.nav_pages = {'home':'home', 'settings':'settings', 'ranking':'ranking', 'alliance':'alliance',

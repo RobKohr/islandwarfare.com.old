@@ -15,7 +15,8 @@
     "express": "4.*",
     "mongodb": "~2.0",
     "mongoose": "*",
-    "body-parser": "*"
+    "body-parser": "*",
+    "node-sass": "*"
   },
   "scripts": {
     "postinstall": "bower install",

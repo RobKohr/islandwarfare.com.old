@@ -1,5 +1,8 @@
+console.log('starting - '+ new Date());
 
-console.log('starting server - '+ new Date());
+
+
+
 var express = require('express');
 var bodyParser = require('body-parser');
 
@@ -11,6 +14,43 @@ app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
+
+//merges get, post, and cookies into one object, req.request (similar to this: http://php.net/manual/en/reserved.variables.request.php)
+app.use(function requestSetter(req, res, next){
+    req.request = {};
+    var collections = [req.query, req.body, req.cookies];
+    for(var i=0; i<collections.length; i++){
+        var collection = collections[i];
+        if(collection){
+            for(var key in collection){
+                req.request[key] = collection[key];
+            }
+        }
+    }
+    return next();
+});
+
+console.log('compiling scss');
+var sass = require('node-sass');
+sass.render({
+    file: static_directory + '/app.scss',
+    success: function(result){
+        var fs = require('fs');
+        fs.writeFile(static_directory + '/app.css', result.css);
+        console.log(result.css);
+        console.log(result.stats);
+        console.log(result.map)
+    },
+    error: function(error) {
+        // error is an object: v2 change
+        console.log('SCSS ERROR!');
+        console.log(error.message);
+        console.log(error.code);
+        console.log(error.line);
+        console.log(error.column); // new in v2
+    }
+});
+
 
 fs = require('fs');
 var config = app.config = require(__dirname + '/config.json');
@@ -47,8 +87,9 @@ app.resEnd = function(req, res, out){
  this is to get push state working.
  At some point, server side rendering could be done for SEO (using PhantomJS)
  */
-var index = null;
+//var index = null;
 app.get(/^[^\.]+$/, function (req, res) {
+    var index = null;
     if(index){
         res.send(index);
     }else {

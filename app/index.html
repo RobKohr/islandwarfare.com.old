@@ -18,8 +18,8 @@
 </head>
 <body>
   <ul class="menu" ng-controller="navListCtrl">
-    <li ng-repeat="page in nav_pages">
-      <a href="{{page}}"><span ng-if="page=='home'">{{logged_in_username}} </span>{{page}}</a>
+    <li ng-repeat="(page, link) in nav_pages">
+      <a href="{{link}}"><span ng-if="page=='home'">{{logged_in_username}} </span>{{page}}</a>
     </li>
   </ul>
 
@@ -39,8 +39,12 @@
   <script src="bower_components/angular-resource/angular-resource.js"></script>
   <script src="app.js"></script>
   <script src="services.js"></script>
-  $components
+  <!--$components-->
+  <script src="components/nav-list/nav-list.js"></script>
   <script src="components/home/home.js"></script>
+
+  <script src="components/auth/auth.js"></script>
+
   <script src="components/island_list/island_list.js"></script>
   <script src="components/auth/register/register.js"></script>
   <script src="components/view1/view1.js"></script>
