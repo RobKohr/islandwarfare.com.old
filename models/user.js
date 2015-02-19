@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 
 var schema = mongoose.Schema({
     username: { type: String, required: true, index: { unique: true } },
-    password: { type: String, required: true }
+    password: { type: String, required: true },
     date_created: { type: Date, default: Date.now }
 });
 

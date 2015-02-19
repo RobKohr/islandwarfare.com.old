@@ -16,13 +16,14 @@
     "mongodb": "~2.0",
     "mongoose": "*",
     "body-parser": "*",
-    "node-sass": "*"
+    "node-sass": "*",
+    "bcrypt": "~0.8"
   },
   "scripts": {
     "postinstall": "bower install",
 
-    "prestart": "npm install",
-    "start": "supervisor server.js",
+    "prestart_no": "npm install",
+    "start": "supervisor -e 'node,js,scss' -n error server.js",
 
     "pretest": "npm install",
     "test": "karma start karma.conf.js",

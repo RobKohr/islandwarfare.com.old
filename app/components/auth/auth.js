@@ -8,9 +8,13 @@ angular.module('myApp.auth', ['ngRoute', 'ngResource'])
         });
     }])
 
-    .controller('loginCtrl', ['$scope', function($scope) {
+    .controller('loginCtrl', ['$scope', 'authService', function($scope, authService) {
+        $scope.submit = function(){
+            var data = Utils.getFormData('form#login-form');
+            console.log(data);
+            authService.login(data);
+        }
 
-        console.log('hello');
     }])
 
     .config(['$routeProvider', function($routeProvider) {
@@ -22,7 +26,7 @@ angular.module('myApp.auth', ['ngRoute', 'ngResource'])
 
     .controller('registerCtrl', ['$scope', 'authService', function($scope, authService) {
         $scope.submit = function(){
-            var data = getFormData('form#register-form');
+            var data = Utils.getFormData('form#register-form');
             console.log(data);
             authService.register(data);
         }
@@ -41,6 +45,13 @@ angular.module('myApp.auth', ['ngRoute', 'ngResource'])
                 headers: { 'content-type': 'application/x-www-form-urlencoded' },
                 transformRequest: $.param
             },
+            login: {
+                method: 'post',
+                url: '/api/auth/login',
+                isArray: false,
+                headers: { 'content-type': 'application/x-www-form-urlencoded' },
+                transformRequest: $.param
+            },
             isLoggedIn: {
                 method: 'post',
                 url: '/api/auth/isLoggedIn',
@@ -50,14 +61,3 @@ angular.module('myApp.auth', ['ngRoute', 'ngResource'])
         });
 
     }]);
-
-function getFormData(query){
-    var out = {};
-    var s_data = $(query).serializeArray();
-    //transform into simple data/value object
-    for(var i = 0; i<s_data.length; i++){
-        var record = s_data[i];
-        out[record.name] = record.value;
-    }
-    return out;
-}
