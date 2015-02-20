@@ -11,7 +11,6 @@ angular.module('myApp.auth', ['ngRoute', 'ngResource'])
     .controller('loginCtrl', ['$scope', 'authService', function($scope, authService) {
         $scope.submit = function(){
             var data = Utils.getFormData('form#login-form');
-            console.log(data);
             authService.login(data);
         }
 
@@ -53,10 +52,9 @@ angular.module('myApp.auth', ['ngRoute', 'ngResource'])
                 transformRequest: $.param
             },
             isLoggedIn: {
-                method: 'post',
+                method: 'get',
                 url: '/api/auth/isLoggedIn',
-                isArray: false,
-                transformRequest: $.param
+                isArray: false
             }
         });
 

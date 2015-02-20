@@ -29,6 +29,7 @@ exports._init = function (config) {
             user.comparePassword(r.password, function(err, isMatch) {
                 if (err) throw err;
                 if(isMatch){
+                    req.session.logged_in_user = user;
                     return app.resEnd(req, res, {success:true, notices:[{'message':'Login Successful'}]});
                 }else{
                     return app.resEnd(req, res, {errors:[{'message':'Invalid password'}]});
@@ -36,16 +37,20 @@ exports._init = function (config) {
             });
         });
     }
+    function is_logged_in(req, res){
+        if(req.session.logged_in_user){
+            return app.resEnd(req, res, {success:true, logged_in_user:req.session.logged_in_user});
+        }else {
+            return app.resEnd(req, res, {success: false, logged_in_user: null, errors:[{'message':"User not logged in"}]});
+        }
+    }
+
     app.get('/api/auth/register', register);
     app.post('/api/auth/register', register);
 
     app.get('/api/auth/login', login);
     app.post('/api/auth/login', login);
-
-    app.post('/api/auth/isLoggedIn', function (req, res) {
-        var out = {logged_in: false};
-        app.resEnd(req, res, out);
-    });
+    app.get('/api/auth/isLoggedIn', is_logged_in);
 }
 ;
 
