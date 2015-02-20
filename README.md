@@ -9,6 +9,6 @@ https://trello.com/b/QE8d7rD5/islandwarfare-com
 Installation
 ============
 
-# Copy /example_private_config.json to /private_config.json and modify the settings
-# npm install
-# npm start
+1) Copy /example_private_config.json to /private_config.json and modify the settings
+2) npm install
+3) npm start
