@@ -32,30 +32,39 @@ angular.module('myApp.auth', ['ngRoute', 'ngResource'])
 
     }])
 
-    .service('authService', ['$resource', function ($resource) {
+    .factory('authService', ['$resource', function ($resource) {
         'use strict';
 
-        return $resource('/api/auth', { id: '@id' }, {
+        var factory =  $resource('/api/auth', { id: '@id' }, {
 
             register: {
                 method: 'post',
                 url: '/api/auth/register',
                 isArray: false,
-                headers: { 'content-type': 'application/x-www-form-urlencoded' },
+                headers: {'content-type': 'application/x-www-form-urlencoded'},
                 transformRequest: $.param
             },
             login: {
                 method: 'post',
                 url: '/api/auth/login',
                 isArray: false,
-                headers: { 'content-type': 'application/x-www-form-urlencoded' },
+                headers: {'content-type': 'application/x-www-form-urlencoded'},
                 transformRequest: $.param
             },
             isLoggedIn: {
                 method: 'get',
                 url: '/api/auth/isLoggedIn',
                 isArray: false
+            },
+            logout: {
+                method: 'get',
+                url: '/api/auth/logout',
+                isArray: false
             }
         });
 
+        factory.doLogout = function(){
+            factory.logout();
+        };
+        return factory;
     }]);

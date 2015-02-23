@@ -37,6 +37,11 @@ exports._init = function (config) {
             });
         });
     }
+    function logout(req, res){
+        delete req.session.logged_in_user;
+        return app.resEnd(req, res, {success:true, notices:[{'message':'User logged out'}]});
+    }
+
     function is_logged_in(req, res){
         if(req.session.logged_in_user){
             return app.resEnd(req, res, {success:true, logged_in_user:req.session.logged_in_user});
@@ -51,6 +56,7 @@ exports._init = function (config) {
     app.get('/api/auth/login', login);
     app.post('/api/auth/login', login);
     app.get('/api/auth/isLoggedIn', is_logged_in);
+    app.get('/api/auth/logout', logout);
 }
 ;
 
