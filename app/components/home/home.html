@@ -1,6 +1,9 @@
+{{logged_in_user}}
 
-<div ng-if="logged_in==true" ng-include="'../island_list/island_list.html'">
-    Loading island list...
-</div>
-<div ng-if="logged_in!=true"  ng-include="'../components/auth/auth.html'">
+<div ng-if="log_in_test_complete">
+    <div ng-if="logged_in_user" ng-include="'../island_list/island_list.html'">
+        Loading island list...
+    </div>
+    <div ng-if="!logged_in_user"  ng-include="'../components/auth/auth.html'">
+    </div>
 </div>

@@ -1,12 +1,12 @@
 <ul class="menu" ng-controller="navListCtrl">
-    <li ng-if="logged_in_user" ng-repeat="(page, link) in logged_in_nav_pages">
+    <li ng-if="logged_in_user" ng-repeat="page in logged_in_nav_pages | keepSorted" ng-init="link=logged_in_nav_pages[page]">
         <span ng-switch="page">
           <span ng-switch-when="home"><a href="{{link}}">{{logged_in_username}} home</a></span>
           <span ng-switch-when="logout"><a href ng-click="logout()">logout</a></span>
           <span ng-switch-default><a href="{{link}}">{{page}}</a></span>
         </span>
     </li>
-    <li ng-if="!logged_in_user" ng-repeat="(page, link) in logged_out_nav_pages">
+    <li ng-if="!logged_in_user" ng-repeat="page in logged_out_nav_pages | keepSorted" ng-init="link=logged_out_nav_pages[page]">
         <span ng-switch="page">
           <span ng-switch-default><a href="{{link}}">{{page}}</a></span>
         </span>

@@ -9,6 +9,10 @@ angular.module('myApp.home', ['ngRoute'])
   });
 }])
 
-.controller('HomeCtrl', [function() {
-
+.controller('HomeCtrl', ['$scope', '$timeout', 'authService', function($scope, $timeout, authService) {
+    $scope.log_in_test_complete = authService.log_in_test_complete;
+    authService.isLoggedIn(function(logged_in_user) {
+        $scope.logged_in_user = logged_in_user;
+        $scope.log_in_test_complete = authService.log_in_test_complete;
+    });
 }]);
